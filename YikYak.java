@@ -1,3 +1,5 @@
+// I worked on the homework assignment alone, using only course materials.
+
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,13 +14,19 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.util.ArrayList;
+import java.util.Random;
 
+/**
+  * This is the class that defines functionality for our fake YikYak
+  * application.
+  *
+  * @author iwebb6 and CS 1331 Homework Team
+  * @version 1.0
+  */
 public class YikYak extends Application {
 
-    //TODO: Create a linked list called postList that holds Yaks currently in
-    //the feed
+    private LinkedList<Post> postList = new SinglyLinkedList<>();
     private BorderPane borderPane = new BorderPane();
     private ArrayList<StackPane> listOfPanes = new ArrayList<>();
     private ObservableList<StackPane> observableListOfPanes;
@@ -28,8 +36,15 @@ public class YikYak extends Application {
         "Excited for Java 9 to come out this summer. Can't wait for that #REPL",
         "So sad Taylor and Justin are graduating. We'll miss you!",
         "Kendrick Lamar new album out",
-        "EventHandler is the thing that handles the event." };
+        "EventHandler is the thing that handles the event."
+    };
 
+    /**
+      * This overriden method starts our JavaFX Application.
+      *
+      * @param stage The Application's primary Stage
+      */
+    @Override
     public void start(Stage stage) {
         Button refreshButton = new Button("Refresh");
         Button deleteButton = new Button("Delete");
@@ -52,24 +67,26 @@ public class YikYak extends Application {
     }
 
     /**
-     * TODO: This method should add new posts to your list of posts.
-     */
+      * A method that randomly adds 1-3 Strings/Posts to the LinkedList.
+      */
     public void generatePosts() {
-
-
+        Random rand = new Random();
+        int numPosts = 1 + rand.nextInt(3);
+        for (int i = 0; i < numPosts; i++) {
+            postList.add(0, new Post(phrases[rand.nextInt(phrases.length)]));
+        }
     }
 
     /**
-     * TODO: This method should delete posts from your list of posts.
-     */
+      * A method that deletes the oldest Post in the LinkedList
+      */
     public void deletePosts() {
-
-
+        postList.remove(postList.size() - 1);
     }
 
     /**
-     * This method updates the feed that is displayed to the user.
-     */
+      * This method updates the feed that is displayed to the user.
+      */
     public void updateDisplay() {
         listOfPanes = new ArrayList<>();
         for (int i = 0; i < postList.size(); i++) {
@@ -87,11 +104,11 @@ public class YikYak extends Application {
     }
 
     /**
-     * This class represents the individual posts that make up the feed.
-     */
+      * This class represents the individual posts that make up the feed.
+      */
     private class Post {
         private String text;
-        private final int TEXT_LIMIT = 50;
+        private static final int TEXT_LIMIT = 50;
 
         public Post(String text) {
             if (text.length() < TEXT_LIMIT) {
