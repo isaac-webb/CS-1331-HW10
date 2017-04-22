@@ -89,12 +89,6 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
         public void setNext(Node next) {
             this.next = next;
         }
-
-        // NOTE: Remove this toString before submitting
-        @Override
-        public String toString() {
-            return element.toString();
-        }
     }
 
     /**
@@ -125,28 +119,21 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
       * Returns the element at the given index.
       *
       * @param index The index of the desired element
-      * @return      The element at the given index
+      * @return      The element at the given index if the index is valid, null
+      *              otherwise
       */
     public E get(int index) {
-        // NOTE: Remove this before submitting
-        System.out.println("\nget(int)\n----------");
-        printList();
-
         Node node = getNode(index);
         return (node != null) ? node.getElement() : null;
     }
 
     /**
-      * [add description]
-      * @param E data [description]
+      * Adds the given element to the end of the SinglyLinkedList.
+      *
+      * @param data The element to add
       */
     public void add(E data) {
-        // NOTE: Remove this before submitting
-        System.out.println("\nadd(E)\n----------");
-        printList();
-
         Node newNode = new Node(data);
-
         if (isEmpty()) {
             head = newNode;
             tail = newNode;
@@ -155,23 +142,17 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
             tail = newNode;
         }
         count++;
-
-        // NOTE: Remove this before submitting
-        System.out.println("\nPOST add(E)\n----------");
-        printList();
     }
 
     /**
-      * [add description]
-      * @param  int index         [description]
-      * @param  E   data          [description]
-      * @return     [description]
+      * Adds the given element to the specified index in the SinglyLinkedList.
+      *
+      * @param index The index to put the element at
+      * @param data  The element to add
+      * @return      true if the addition was successful, false if the index was
+      *              invalid
       */
     public boolean add(int index, E data) {
-        // NOTE: Remove this before submitting
-        System.out.println("\nadd(int, E)\n----------");
-        printList();
-
         if (index == 0) {
             // Make a new head with the input data and a next of the old head
             Node oldHead = head;
@@ -197,17 +178,14 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
         if (count == 1) {
             tail = head;
         }
-
-        // NOTE: Remove this before submitting
-        System.out.println("\nPOST add(int, E)\n----------");
-        printList();
-
         return true;
     }
 
     /**
-      * [addAll description]
-      * @param Collection<? extends E> c [description]
+      * Adds all of the elements in the Collection to the end of the
+      * SinglyLinkedList.
+      *
+      * @param c The Collection of elements to add
       */
     public void addAll(Collection<? extends E> c) {
         for (E element : c) {
@@ -216,20 +194,18 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     /**
-      * [contains description]
-      * @param  E data          [description]
-      * @return   [description]
+      * Returns whether or not the SinglyLinkedList contains the given element.
+      *
+      * @param data The element to check for
+      * @return     true if the element is in the SinglyLinkedList, false
+      *             otherwise
       */
     public boolean contains(E data) {
-        // NOTE: Remove this before submitting
-        System.out.println("\ncontains(E)\n----------");
-        printList();
-
         Node currNode = head;
 
         // Keep looking through the list while there is something to look for
         while (currNode != null) {
-            if (currNode.getElement() == data) {
+            if (currNode.getElement().equals(data)) {
                 return true;
             }
             currNode = currNode.getNext();
@@ -239,35 +215,37 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     /**
-      * [containsAll description]
-      * @param  Collection<? extends       E> c [description]
-      * @return              [description]
+      * Returns whether or not all elements in the given Collection are in the
+      * SinglyLinkedList.
+      *
+      * @param c The Collection containing all of the elements to check
+      * @return  true if all the elements are in the SinglyLinkedList, false
+      *          otherwise
       */
     public boolean containsAll(Collection<? extends E> c) {
-        boolean containedAll = true;
-
         for (E element : c) {
-            containedAll = containedAll && contains(element);
+            if (!contains(element)) {
+                return false;
+            }
         }
 
-        return containedAll;
+        return true;
     }
 
     /**
-      * [remove description]
-      * @param  E data          [description]
-      * @return   [description]
+      * Removes the first occurrence of the given element if it exists in the
+      * SinglyLinkedList.
+      *
+      * @param data The element to remove
+      * @return     true if the element was successfully removed, false
+      *             otherwise
       */
     public boolean remove(E data) {
-        // NOTE: Remove this before submitting
-        System.out.println("\nremove(E)\n----------");
-        printList();
-
         Node prevNode = null;
         Node currNode = head;
 
         while (currNode != null) {
-            if (currNode.getElement() == data) {
+            if (currNode.getElement().equals(data)) {
                 // Account for any head/tail deletions
                 if (currNode != head && currNode != tail) {
                     prevNode.setNext(currNode.getNext());
@@ -283,11 +261,6 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
                     }
                 }
                 count--;
-
-                // NOTE: Remove this before submitting
-                System.out.println("\nPOST remove(E)\n----------");
-                printList();
-
                 return true;
             }
             prevNode = currNode;
@@ -298,15 +271,13 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     /**
-      * [remove description]
-      * @param  int index         [description]
-      * @return     [description]
+      * Removes the element at the given index and returns it if it was removed
+      * successfully.
+      *
+      * @param index The index of the element to remove
+      * @return      The removed object if successful, null otherwise
       */
     public E remove(int index) {
-        // NOTE: Remove this before submitting
-        System.out.println("\nremove(int)\n----------");
-        printList();
-
         Node prevNode = null;
         Node currNode = head;
 
@@ -332,11 +303,6 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
                 }
             }
             count--;
-
-            // NOTE: Remove this before submitting
-            System.out.println("\nPOST remove(int)\n----------");
-            printList();
-
             return currNode.getElement();
         } else {
             return null;
@@ -344,9 +310,11 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     /**
-      * [removeAll description]
-      * @param  Collection<? extends       E> c [description]
-      * @return              [description]
+      * Removes all elements in the given Collection from the SinglyLinkedList,
+      * returning whether or not all elements were removed successfully.
+      *
+      * @param c The Collection containing the elements to remove
+      * @return  Whether or not all of the elements were removed successfully
       */
     public boolean removeAll(Collection<? extends E> c) {
         boolean removedAll = true;
@@ -359,40 +327,29 @@ public class SinglyLinkedList<E> implements LinkedList<E> {
     }
 
     /**
-      * [size description]
-      * @return [description]
+      * Returns the size (number of elements) in the SinglyLinkedList.
+      *
+      * @return The size of the SinglyLinkedList
       */
     public int size() {
         return count;
     }
 
     /**
-      * [isEmpty description]
-      * @return [description]
+      * Returns whether or not the SinglyLinkedList is empty.
+      *
+      * @return true if the size of the SinglyLinkedList is 0, false otherwise
       */
     public boolean isEmpty() {
         return count == 0;
     }
 
     /**
-      * [clear description]
+      * Deletes all elements from the SinglyLinkedList and sets the size to 0.
       */
     public void clear() {
         head = null;
         tail = null;
         count = 0;
-    }
-
-    // NOTE: Remove this method before submitting
-    public void printList() {
-        Node currNode = head;
-        System.out.println("Count: " + count);
-        for (int i = 0; i < count; i++) {
-            System.out.println(i + ": " + currNode);
-            currNode = currNode.getNext();
-        }
-
-        System.out.println("Head: " + head);
-        System.out.println("Tail: " + tail);
     }
 }

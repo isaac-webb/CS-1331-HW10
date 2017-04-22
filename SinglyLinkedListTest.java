@@ -1,6 +1,9 @@
 import junit.framework.TestCase;
 import org.junit.Test;
+import org.junit.FixMethodOrder;
+import org.junit.runners.MethodSorters;
 
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class SinglyLinkedListTest extends TestCase {
     //several lists for testing
     private SinglyLinkedList<String> emptyList;
@@ -20,6 +23,17 @@ public class SinglyLinkedListTest extends TestCase {
     }
 
     @Test
+    public void testClear() throws Exception {
+        emptyList.add("hi");
+        assertFalse(emptyList.isEmpty());
+        assertEquals(1, emptyList.size());
+        emptyList.clear();
+        assertNull(emptyList.get(0));
+        assertEquals(0, emptyList.size());
+        assertTrue(emptyList.isEmpty());
+    }
+
+    @Test
     public void testGet() throws Exception {
         assertEquals("One", listOne.get(0));
         assertEquals(null, emptyList.get(0));
@@ -30,19 +44,19 @@ public class SinglyLinkedListTest extends TestCase {
 
     @Test
     public void testAdd() throws Exception {
-        assertEquals(false, longList.add(-1, "2"));
-        assertEquals(false, longList.add(5, "adding past index"));
-        assertEquals(true, longList.add(0, "adding to head"));
+        assertFalse(longList.add(-1, "2"));
+        assertFalse(longList.add(5, "adding past index"));
+        assertTrue(longList.add(0, "adding to head"));
         assertEquals(5, longList.size());
         assertEquals("adding to head", longList.get(0));
-        assertEquals(true, longList.add(2, "index 2"));
+        assertTrue(longList.add(2, "index 2"));
         assertEquals(6, longList.size());
         assertEquals("index 2", longList.get(2));
-        assertEquals(true, listOne.add(1, "index 1"));
+        assertTrue(listOne.add(1, "index 1"));
         assertEquals("index 1", listOne.get(1));
-
     }
 
+    @Test
     public void testRemove() throws Exception {
         assertEquals(null, emptyList.remove(0));
         assertEquals(null, listOne.remove(-1));
@@ -50,7 +64,15 @@ public class SinglyLinkedListTest extends TestCase {
         assertEquals("One", listOne.remove(0));
         assertEquals(0, listOne.size());
         assertEquals("3", longList.remove(3));
-        assertEquals(3, longList.size());
+        assertTrue(longList.remove("2"));
+        assertEquals(2, longList.size());
 
+    }
+
+    @Test
+    public void testContains() throws Exception {
+        assertTrue(longList.contains("1"));
+        assertFalse(emptyList.contains("1"));
+        assertFalse(longList.contains("Five"));
     }
 }
